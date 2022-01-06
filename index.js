@@ -10,11 +10,13 @@ const basicAuth = require('express-basic-auth')
 const users = require('./routes/users')
 const Car = require('./routes/car')
 const blog  = require('./routes/blog')
+const review = require('./routes/reviews')
 
 //importing the middleware
 const logger = require('./middleware/logger')
 const req = require('express/lib/request')
 const authenticate = require('./middleware/jwt')
+const Review = require('./models/Review')
 
 // Database Connection String 
 const collection = 'mayur'
@@ -54,7 +56,7 @@ app.use(function(req, res, next) {
   });
 
 // api routes for different models
-
+app.use( '/api' , review)
 app.use('/api', blog )
 // app.use('/api' ,logger, team)
 app.use('/api' , users  )
