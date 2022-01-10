@@ -2,14 +2,16 @@ const mongoose = require('mongoose')
 
 const Blog  = new mongoose.Schema({
     title : {
-        type : String
+        type : String,
+        required : true
     },
     author : {
         type : String,
         default : "Mayur Meshram"
     },
     body : {
-        type :String
+        type :String,
+        required : true
     },
     createdDate : {
         type : Date,
@@ -18,9 +20,7 @@ const Blog  = new mongoose.Schema({
     imgUrl : {
         type : String
     },
-    comments : {
-        type : [String]
-    }
+    comments : [String]
 })
 
 module.exports = mongoose.model('Blog',Blog)
