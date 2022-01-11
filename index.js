@@ -11,7 +11,7 @@ const users = require('./routes/users')
 const blog  = require('./routes/blog')
 const review = require('./routes/reviews')
 const product = require('./routes/product')
-const ekart = require('./routes/orders')
+const orders = require('./routes/orders')
 
 //importing the middleware
 const logger = require('./middleware/logger')
@@ -20,23 +20,31 @@ const authenticate = require('./middleware/jwt')
 const Review = require('./models/Review')
 
 // Database Connection String 
-const collection = 'mayur'
-const url = 'mongodb://localhost/'+collection ;
+const localDb = 'mayur'
+const localMongoDbUrl = 'mongodb://localhost/'+localDb ;
 
+const cloudMongoDBUrl = 'mongodb+srv://mayur:hellomongo@mongotest.xrjgb.mongodb.net/test'
 const app = express()
 
 // middlewares for accepting json request
 app.use(express.json())
-// middleware for url encoded request
+// middleware for cloudMongoDBUrl encoded request
 app.use(bodyParser.urlencoded({extended:false}))
 // static html files can be rendered which are present in public folder
 app.use(express.static('./public'))
 
 // Connecting to mongo db
-mongoose.connect( url , err =>{
-  if (err) console.log("Error",err)
-  else  console.log("Connection to mongodb successful")
-} )
+let dbConnection = false 
+let dbConnectionMsg = 'Not Connected'
+mongoose.connect( localMongoDbUrl , err =>{
+  if (err) 
+  console.log("DB Error",err)
+  else{
+    dbConnection = true ;
+    dbConnectionMsg = 'Connected to MongoCloud'
+    console.log("Connected to MongoCloud")
+  }  
+})
 
 //connecting to mongodb
 // mongoose.connect( url , {useNewUrlParser : true} )
@@ -60,11 +68,18 @@ app.use(function(req, res, next) {
 app.use('/v1/api/',product)
 app.use('/v1/api/',blog)
 app.use('/v1/api/',users)
-// app.use('/api', Car)
-// app.use('/api/ekart' , ekart )
-// app.use('/api' , review)
+app.use('/api/orders' , orders )
+app.use('/v1/api' , review)
 // app.use('/api' ,logger, team)
 
 
+app.get('/v1/api/heartbeat' , (req,res)=>{
+  const response =
+  {
+    success : dbConnection ,
+    message : dbConnectionMsg
+  }
+  res.status(200).json(response)
+})
 
 app.listen(3000 ,()=>console.log('Running on 3000') )

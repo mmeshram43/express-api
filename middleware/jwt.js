@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken')
-
 // JWT verifies the User from the token that is issued after successful login
-
 const auth = function authenticate( req, res , next )
 {
   console.log('Verifying User....')
