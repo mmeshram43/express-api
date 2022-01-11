@@ -41,7 +41,7 @@ mongoose.connect( localMongoDbUrl , err =>{
   else{
     dbConnection = true ;
     dbConnectionMsg = 'Connected to Mongo local'
-    console.log("Connected to MongoCloud")
+    console.log("Connected to Mongo local")
   }  
 })
 
