@@ -2,18 +2,19 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+const verify = require('../middleware/verify')
 
-
+// const serverError = { message : "Server unavailable." }
 router
-.get( '/user' , async (req,res)=> {
+.get('/user/',async (req,res)=> {
+    // const {id} = req.params
     try {
         const user  = await User.find()
-        res.json(user)
-        
-    } catch (error) {
-        res.send('Error')
-    }
+        res.status(200).json(user)
+        } 
+    catch (error) {res.send('Server Error')}
 })
+// Create new user
 .post( '/user' , async (req,res)=>{
     console.log(req.body);
     const user = new User(
@@ -25,19 +26,27 @@ router
         }
     ) 
     try {
-        const existing = await User.findOne({ id : req.body.id })
+        const existing = await User.findOne({id:req.body.id})
         if(existing){
-            res.status(200).json( { registered : false , message : "User ID Exists"} )
+            const userExistsRes = {
+                 registered : false , 
+                 message : "User ID Exists"
+                }
+            res.status(200).json(userExistsRes)
             return
         }
         else{
             const u1 = await user.save()
-            res.status(201).json({ registered : true , message : "User ID registered."})
+            const registeredIdRes = { 
+                registered : true , 
+                message : "User ID registered."}
+            res.status(201).json(registeredIdRes)
         }
     } catch (error) {
         res.send("Server Error")
     }
 })
+// Delete user 
 .delete( '/user/:id' , async (req,res)=> {
     const {id} = req.params
     try {
@@ -49,15 +58,11 @@ router
         else{
             res.status(404).send("Id invalid")
         }
-        
-    } catch (error) {
-        res.send("Server error.")
-        
-    }
+    } catch (error) { res.send("Server error")}
 
  })
-
-router.post( '/user/login' ,async (req,res)=>{
+// logging user in 
+router.post('/user/login', async (req,res)=>{
     const { id } = req.body 
     const {password} = req.body
     try {
@@ -65,31 +70,43 @@ router.post( '/user/login' ,async (req,res)=>{
         if(doc){
             if (doc.password == password)
             {
-                let token = jwt.sign( req.body , 'key' )
+                let token = jwt.sign( req.body,'key')
                 res.status(200).send({token})
             }
-            else
-            res.status(401).json({ loggedIn : false , message : "Incorrect password"  })
+            else{
+                const invPassRes ={ 
+                    loggedIn : false , 
+                    message : "Incorrect password"
+                }
+                res.status(401).json(invPassRes)
+            }
         }
-        else res.status(404).json({ loggedIn : false , message : "User ID doesn't exist"  })  
+        else{
+            const invIdRes = { 
+                loggedIn : false , 
+                message : "UserID doesn't exist" 
+            }
+            res.status(404).json(invIdRes) 
+        }  
     } 
-    catch (error) { res.status(500).send("Server error.")    }
+    catch (error) 
+    { res.status(500).send("Server error.") }
 })
 
+router.patch( '/user/:id' , async (req,res)=> {
+    const {id} = req.params
+    try {
+        const user = await User.findById(id)
+        if(!user) return res.status(404).send('User Id invalid')
+        user.isAdmin = true
+        const response = await user.save()
+        res.status(200).json(response)
+    } catch (error) {
+        res,status(500).send('Server error')
+    }
+ })
 
-const events = [ 
-    { name : "Unlimited Veg Buffet" , date :'01-04-2022' , charges :'500'   },
-    { name : "Vegan Delight Buffet" , date :'05-04-2022' , charges :'500'   },
-    { name : "The Grill Festival " , date :'10-04-2022' , charges :'1500'   },
-    { name : "Thanksgiving Dinner Party" , date :'15-04-2022' , charges :'450'} ,
-    { name : "Anniversary Offer" , date :'15-04-2022' , charges :'200'} 
-]
-
-router.get( '/events' , verifyToken ,  (req,res)=>{
-    res.status(200).json(events)
-} )
-
-
+// Middleware to verify token
 function verifyToken( req,res ,next ){
     if(!req.headers.authorization){
         res.status(401).send("Unauthorized")

@@ -23,7 +23,6 @@ const Review = require('./models/Review')
 const localDb = 'mayur'
 const localMongoDbUrl = 'mongodb://localhost/'+localDb ;
 
-const cloudMongoDBUrl = 'mongodb+srv://mayur:hellomongo@mongotest.xrjgb.mongodb.net/test'
 const app = express()
 
 // middlewares for accepting json request
@@ -41,7 +40,7 @@ mongoose.connect( localMongoDbUrl , err =>{
   console.log("DB Error",err)
   else{
     dbConnection = true ;
-    dbConnectionMsg = 'Connected to MongoCloud'
+    dbConnectionMsg = 'Connected to Mongo local'
     console.log("Connected to MongoCloud")
   }  
 })

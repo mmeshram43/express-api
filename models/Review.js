@@ -7,6 +7,7 @@ const Review = new mongoose.Schema({
     body : String,
     author : String,
     imageUrl : String,
+    rating : Number ,
     date : { type : Date , default : Date.now },
     hidden : Boolean,
     meta : { votes : Number , favs : Number },
