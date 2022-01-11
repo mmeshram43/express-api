@@ -1,3 +1,4 @@
+const env = require('dotenv').config()
 const express =  require('express')
 const mongoose  = require('mongoose')
 const bodyParser = require('body-parser')
@@ -19,12 +20,7 @@ const req = require('express/lib/request')
 const authenticate = require('./middleware/jwt')
 const Review = require('./models/Review')
 
-// Database Connection String 
-const localDb = 'mayur'
-const localMongoDbUrl = 'mongodb://localhost/'+localDb ;
-
 const app = express()
-
 // middlewares for accepting json request
 app.use(express.json())
 // middleware for cloudMongoDBUrl encoded request
@@ -35,15 +31,17 @@ app.use(express.static('./public'))
 // Connecting to mongo db
 let dbConnection = false 
 let dbConnectionMsg = 'Not Connected'
-mongoose.connect( localMongoDbUrl , err =>{
-  if (err) 
-  console.log("DB Error",err)
-  else{
-    dbConnection = true ;
-    dbConnectionMsg = 'Connected to Mongo local'
-    console.log("Connected to Mongo local")
-  }  
-})
+mongoose.connect( process.env.LOCAL_DB_URL+process.env.LOCAL_DB , 
+  err => {
+           if (err) 
+          console.log("DB Error",err)
+           else
+           {
+            dbConnection = true ;
+            dbConnectionMsg = 'Connected to Mongo local'
+            console.log("Connected to Mongo local")
+            }
+          })
 
 //connecting to mongodb
 // mongoose.connect( url , {useNewUrlParser : true} )
@@ -81,4 +79,5 @@ app.get('/v1/api/heartbeat' , (req,res)=>{
   res.status(200).json(response)
 })
 
-app.listen(3000 ,()=>console.log('Running on 3000') )
+app.listen(process.env.PORT ,()=>{
+  console.log(`Server running ob ${process.env.PORT}`)  })
