@@ -10,9 +10,9 @@ const basicAuth = require('express-basic-auth')
 //importing all the routes
 const users = require('./routes/users')
 const blog  = require('./routes/blog')
-const review = require('./routes/reviews')
+// const review = require('./routes/reviews')
 const product = require('./routes/product')
-const orders = require('./routes/orders')
+// const orders = require('./routes/orders')
 
 //importing the middleware
 const logger = require('./middleware/logger')
@@ -31,7 +31,8 @@ app.use(express.static('./public'))
 // Connecting to mongo db
 let dbConnection = false 
 let dbConnectionMsg = 'Not Connected'
-mongoose.connect( process.env.LOCAL_DB_URL+process.env.LOCAL_DB , 
+const dbUrl = "mongodb+srv://mayur:hellomongo@mongotest.xrjgb.mongodb.net/test"
+mongoose.connect( dbUrl, 
   err => {
            if (err) 
           console.log("DB Error",err)
@@ -39,7 +40,7 @@ mongoose.connect( process.env.LOCAL_DB_URL+process.env.LOCAL_DB ,
            {
             dbConnection = true ;
             dbConnectionMsg = 'Connected to Mongo local'
-            console.log("Connected to Mongo local")
+            console.log("Connected to Mongo Server")
             }
           })
 
@@ -65,8 +66,8 @@ app.use(function(req, res, next) {
 app.use('/v1/api/',product)
 app.use('/v1/api/',blog)
 app.use('/v1/api/',users)
-app.use('/api/orders' , orders )
-app.use('/v1/api' , review)
+// app.use('/api/orders' , orders )
+// app.use('/v1/api' , review)
 // app.use('/api' ,logger, team)
 
 
