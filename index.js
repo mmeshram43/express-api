@@ -30,7 +30,7 @@ app.use(express.static('./public'))
 
 // Connecting to mongo db
 let dbConnection = false 
-let dbConnectionMsg = 'Not Connected'
+let dbConnectionMsg = 'Connected to server.'
 const dbUrl = "mongodb+srv://mayur:hellomongo@mongotest.xrjgb.mongodb.net/test"
 mongoose.connect( dbUrl, 
   err => {
@@ -39,7 +39,7 @@ mongoose.connect( dbUrl,
            else
            {
             dbConnection = true ;
-            dbConnectionMsg = 'Connected to Mongo local'
+            dbConnectionMsg = 'Connected to Mongo Atlas'
             console.log("Connected to Mongo Server")
             }
           })
