@@ -70,7 +70,7 @@ router.post('/user/login', async (req,res)=>{
         if(doc){
             if (doc.password == password)
             {
-                let token = jwt.sign( req.body,'key')
+                let token = jwt.sign( req.body,process.env.JWT_KEY)
                 res.status(200).send({token})
             }
             else{
