@@ -3,7 +3,7 @@ const express =  require('express')
 const mongoose  = require('mongoose')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
-const morgan =require('morgan')
+// const morgan =require('morgan')
 const session = require('express-session')
 
 //Basic Authentication
@@ -90,28 +90,6 @@ app.get('/api/v1/heartbeat' , (req,res)=>{
   }
   res.status(200).json(response)
 })
-// let paginat = [ { id : 1 },{ id : 2 },{ id : 3 },{ id : 4 },{ id : 5 },{ id : 6 },{ id : 7 },{ id : 8 },{ id : 9 },{ id : 10 }
-
-// ]
-// app.get('/paginate/' ,async (req,res)=>{
-  
-//   console.log(req.query)
-//   const {page} = req.query
-//   const {limit} = req.query
-
-//   let startIndex = (parseInt(page) -1 )*limit
-//   let endIndex = parseInt(limit)
-//   try {
-//     const response = await student.find().skip(startIndex).limit(parseInt(limit))
-//     res.json(response)
-    
-//   } catch (error) {
-//     res.status(500)
-//   }
-
-  // let responseBody = paginat.slice(startIndex,startIndex+5)
-  // res.json(responseBody)
-// })
 
 // mongoQ() ;
 
