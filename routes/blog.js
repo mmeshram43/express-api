@@ -4,7 +4,7 @@ const blog = require('../models/Blog')
 const verify =  require('../middleware/verify')
 const jwt = require('../middleware/jwt')
 const auth = require("../middleware/jwt")
-const review  = require('../models/Review')
+// const review  = require('../models/Blogpost')
 
 router
 .get( '/blog', jwt , async (req,res)=>{

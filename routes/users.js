@@ -1,22 +1,49 @@
 const express = require('express')
+const env = require('dotenv').config()
 const router = express.Router()
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const verify = require('../middleware/verify')
+const bcrypt = require('bcrypt')
 
 // const serverError = { message : "Server unavailable." }
+
+// only meshra1 id will have the access to user db 
+let dataAccess = function(req,res,next){
+    console.log('Data Access middleware..')
+    console.log(req.params)
+    if(req.params.id == 'meshra1') {
+        console.log('User has admin ID')
+    next()
+    }
+    else {
+        return res.send('Not Allowed')
+         console.log('Passed from middleware..')
+        next()
+    }
+
+}
+
 router
-.get('/user/',async (req,res)=> {
-    // const {id} = req.params
-    try {
-        const user  = await User.find()
-        res.status(200).json(user)
-        } 
-    catch (error) {res.send('Server Error')}
+.get('/users/:id', dataAccess, async (req,res)=> {
+    if(true)
+    {
+        console.log('Inside if')
+        try {
+            const user  = await User.find()
+            res.status(200).json(user)
+            } 
+        catch (error) {res.send('Server Error')}
+    }
+    else{
+       res.status(404)   
+    }
 })
 // Create new user
-.post( '/user' , async (req,res)=>{
+.post( '/user/signup' , async (req,res)=>{
     console.log(req.body);
+    let hash = bcrypt.hashSync(req.body.password , 2)
+    console.log(hash)
     const user = new User(
         {
             id : req.body.id ,
@@ -42,6 +69,7 @@ router
                 message : "User ID registered."}
             res.status(201).json(registeredIdRes)
         }
+        // res.status(200)
     } catch (error) {
         res.send("Server Error")
     }

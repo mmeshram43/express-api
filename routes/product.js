@@ -6,15 +6,41 @@ const Product = require('../models/Product')
  // Get All  Products
  router
 .get('/products',async ( req , res) => {
+    const { limit } = req.query
+    if(limit){
+        try {
+            const products = await Product.find().limit(parseInt(limit))
+            res.status(200).json(products)
+        } catch (error) {
+            // console.log()
+            res.status(500).json('Server error')
+        }
+    }
+    else{
+        try {
+            const products = await Product.find()
+            res.status(200).json(products)
+        } catch (error) {
+            // console.log()
+            res.status(500).json('Server error')
+        }
+    }
+   
+  })
+// GET by categories
+router.get('/products/category/:category' , async (req,res)=>{
+    const { category } = req.params
     try {
-        const products = await Product.find()
+        const products = await Product.find({ category : category })
         res.status(200).json(products)
     } catch (error) {
         // console.log()
         res.status(500).json('Server error')
     }
-  })
-.post('/products' , async ( req, res ) =>{
+
+})
+
+router.post('/products' , async ( req, res ) =>{
     const newProduct = new Product({
         id : req.body.id,
         title : req.body.title,
@@ -37,7 +63,7 @@ const Product = require('../models/Product')
          res.status(500).send("Server error") 
         }
   })
-// Get review by Id
+// Get product by Id
 router.
 get('/products/:id' ,async (req,res) =>{
       const {id} = req.params
@@ -52,6 +78,7 @@ get('/products/:id' ,async (req,res) =>{
           res.status(500).send('Server error')
       }
   })
+  
 router
 .patch('/reviews/:id',async (req,res)=>{
     const { id } = req.params
@@ -107,5 +134,8 @@ router.delete('/cart/:id',(req,res)=>{
     })
     res.status(200).json(cartItem)
 })
+
+
+// router.get('/products'  )
 
 module.exports = router
