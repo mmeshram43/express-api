@@ -73,7 +73,6 @@ mongoose.connect( process.env.DB_HOST , err => {
 //Handle basic auth  authentication
 //app.use(basicAuth({ regUsers : { 'admin':'supersecret' } }))
 
-
 // api routes for different models
 app.use('/api/v1',product)
 app.use('/api/v1',blog)
@@ -93,5 +92,5 @@ app.get('/api/v1/heartbeat' , (req,res)=>{
 
 // mongoQ() ;
 
-app.listen(3000 ,()=>{
+app.listen(process.env.PORT || 3000 ,()=>{
   console.log(`Server running`)  })
