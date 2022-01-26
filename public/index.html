@@ -10,7 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
             <div class="container-fluid">
                 <div class="header">
                     <a class="navbar-brand" >ExpressJs API</a>
@@ -29,7 +29,7 @@
                               <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" 
                                 data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    <strong>POST</strong> <samp>/v1/api/user/login</samp>
+                                    <strong>POST</strong> <samp>/api/v1/user/login</samp>
                                 </button>
                               </h2>
                               <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -51,7 +51,7 @@
                             <div class="accordion-item">
                               <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
-                                    <strong>POST</strong> <samp>/v1/api/user</samp>
+                                    <strong>POST</strong> <samp>/api/v1/user/signup</samp>
                                 </button>
                               </h2>
                               <div id="collapseUser" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -78,22 +78,22 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             <strong>GET</strong> 
-                            <samp> /v1/api/blog </samp>
+                            <samp> /api/v1/blog </samp>
                         </li>
                         <li class="list-group-item">
                             <strong>GET</strong> 
-                            <samp> /v1/api/blog/{id} </samp>
+                            <samp> /api/v1/blog/{id} </samp>
                         </li>
                         <li class="list-group-item">
                             <strong>DELETE</strong> 
-                            <samp> /v1/api/blog/{id} </samp>
+                            <samp> /api/v1/blog/{id} </samp>
                         </li>
                         <div class="end-point">
                             <div class="accordion" id="accordionExample">
                                 <div class="accordion-item">
                                   <h2 class="accordion-header" id="headingOne">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBlog" aria-expanded="false" aria-controls="collapseBlog">
-                                        <strong>POST</strong> <samp>/v1/api/blog</samp>
+                                        <strong>POST</strong> <samp>/api/v1/blog</samp>
                                     </button>
                                   </h2>
                                   <div id="collapseBlog" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -120,12 +120,21 @@
                       <ul class="list-group">
                         <li class="list-group-item">
                             <strong>GET</strong> 
-                            <samp> /v1/api/products </samp>
+                            <samp> /api/v1/products </samp>
                         </li>
                         <li class="list-group-item">
-                            <strong>GET</strong> 
-                            <samp> /v1/api/products/{id} </samp>
-                        </li>
+                          <strong>GET</strong> 
+                          <samp> /api/v1/products/{id} </samp>
+                      </li>
+                        <li class="list-group-item">
+                          <strong>GET</strong> 
+                          <samp> /api/v1/products/category/{category} </samp>
+                      </li>
+                        <li class="list-group-item">
+                          <strong>GET</strong> 
+                          <samp> /api/v1/products?limit={number} </samp>
+                      </li>
+                      
                       </ul>
 
               </div>
@@ -139,9 +148,9 @@
               </div>
               <hr>
               <div class="list-group-item">
-                <strong>GET</strong><samp>/v1/api/heartbeat</samp>
+                <strong>GET</strong><samp>/api/v1/heartbeat</samp>
                 <pre></pre>
-                <form method="get" action="/v1/api/heartbeat"  >
+                <form method="get" action="/api/v1/heartbeat"  >
                   <button
                    class="btn btn-info btn-sm"> Check Heartbeat </button>
                 </form>
