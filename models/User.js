@@ -1,3 +1,4 @@
+// const { Admin } = require('mongodb')
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
@@ -17,7 +18,8 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    isAdmin : { type : Boolean , default : false}
+    isAdmin : { type : Boolean , default : false},
+    roles : { type : Object }
 })
 
 module.exports = mongoose.model('User' , userSchema)

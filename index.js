@@ -4,7 +4,10 @@ const mongoose  = require('mongoose')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
 // const morgan =require('morgan')
+const cookieparser = require('cookie-parser')
 const session = require('express-session')
+
+
 
 //Basic Authentication
 //const basicAuth = require('express-basic-auth')
@@ -40,6 +43,7 @@ app.use(session({
   cookie: { secure: false, maxAge : 60000 }
 }))
 
+app.use(cookieparser());
 
 app.use(express.static('./public'))
 
@@ -55,13 +59,13 @@ let dbConnectionString = process.env.DB_HOST
 let localDbUrl = 'mongodb://localhost/mayur'
 let dbConnection = false 
 let dbConnectionMsg = 'Not connected to server.'
-mongoose.connect( process.env.DB_HOST , err => {
+mongoose.connect( localDbUrl , err => {
            if (err) console.log("DB Error",err)
            else
            {
             dbConnection = true ;
-            dbConnectionMsg = 'Connected to Mongo '
-            console.log("Connected to Mongo ")
+            dbConnectionMsg = 'Connected to Mongo Local '
+            console.log("Connected to Mongo Local ")
             }
           })
 
@@ -74,11 +78,11 @@ mongoose.connect( process.env.DB_HOST , err => {
 //app.use(basicAuth({ regUsers : { 'admin':'supersecret' } }))
 
 // api routes for different models
-app.use('/api/v1',product)
-app.use('/api/v1',blog)
-app.use('/api/v1',users)
-app.use('/api/v1',orders )
-app.use('/api/v1',blogpost)
+app.use('/api',product)
+app.use('/api',blog)
+app.use('/api',users)
+app.use('/api',orders )
+app.use('/api',blogpost)
 // app.use('/api' ,logger, team)
 
 app.get('/api/v1/heartbeat' , (req,res)=>{

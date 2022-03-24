@@ -21,59 +21,39 @@
           <div class="container mt-3">
               <div class="row">
                   <div class="col-8">
-                    <strong>User Registration & Authentication</strong>
+                      <strong> User Registration & Authentication </strong>
                     <hr>
-                    <div class="end-point">
-                        <div class="accordion" id="user-login">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" 
-                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    <strong>POST</strong> <samp>/api/v1/user/login</samp>
-                                </button>
-                              </h2>
-                              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <pre>
-                                        {
-                                            "id" : "userid",
-                                            "password" : "password"
-                                        }
-                                    </pre>
-                                </div>
-                              </div>
-                            </div>
-            
-                      </div>
-                    </div>
-                    <div class="end-point">
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
-                                    <strong>POST</strong> <samp>/api/v1/user/signup</samp>
-                                </button>
-                              </h2>
-                              <div id="collapseUser" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <pre>
-                                        {
-                                            "id" : "userid",
-                                            "name" : "name",
-                                            "email" : "email",
-                                            "password" : "password"
-                                        }
-                                    </pre>
-                                </div>
-                              </div>
-                            </div>
-                      </div>
-                    </div>
-                    <div class="end-point">
-                      
-                    </div>
-                    <pre></pre>
+                    <details>
+                      <summary><strong> POST</strong> <samp>/api/v1/user/login</samp> </summary>
+                      <pre>
+                        {
+                            "id" : "userid",
+                            "password" : "password"
+                        }
+                    </pre>
+                    </details>
+                    <hr>
+                    <details>
+                      <summary>
+                        <strong>POST</strong> <samp>/api/v1/user/signup</samp>
+                      </summary>
+                        <pre>
+                          {
+                              "id" : "userid",
+                              "name" : "name",
+                              "email" : "email",
+                              "password" : "password"
+                          }
+                      </pre>
+                    </details>
+                    <hr>
+
+                    <details>
+                      <summary>
                     <strong>Blogs</strong>
+
+                      </summary>
+                    </details>
                     <hr>
                     <ul class="list-group">
                         <li class="list-group-item">
@@ -138,6 +118,7 @@
                       </ul>
 
               </div>
+
               <div class="col-4">
                <strong>About API</strong>
                <hr>

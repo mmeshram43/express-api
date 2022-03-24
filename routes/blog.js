@@ -7,7 +7,7 @@ const auth = require("../middleware/jwt")
 // const review  = require('../models/Blogpost')
 
 router
-.get( '/blog', jwt , async (req,res)=>{
+.get( '/blog' ,jwt, async (req,res)=>{
     try {
         const b1 = await blog.find()
         res.status(200).json(b1)

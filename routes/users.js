@@ -5,39 +5,35 @@ const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const verify = require('../middleware/verify')
 const bcrypt = require('bcrypt')
+const { route } = require('./product')
 
 // const serverError = { message : "Server unavailable." }
 
 // only meshra1 id will have the access to user db 
-let dataAccess = function(req,res,next){
-    console.log('Data Access middleware..')
-    console.log(req.params)
-    if(req.params.id == 'meshra1') {
-        console.log('User has admin ID')
-    next()
-    }
-    else {
-        return res.send('Not Allowed')
-         console.log('Passed from middleware..')
-        next()
-    }
+// let dataAccess = function(req,res,next){
+//     console.log('Data Access middleware..')
+//     console.log(req.params)
+//     if(req.params.id == 'meshra1') {
+//         console.log('User has admin ID')
+//     next()
+//     }
+//     else {
+//         return res.send('Not Allowed')
+//          console.log('Passed from middleware..')
+//         next()
+//     }
+// }
 
-}
 
 router
-.get('/users/:id', dataAccess, async (req,res)=> {
-    if(true)
-    {
-        console.log('Inside if')
+.get('/user', verify , async (req,res)=> {
         try {
-            const user  = await User.find()
+            const user  = await User.find({}, { })
             res.status(200).json(user)
             } 
         catch (error) {res.send('Server Error')}
-    }
-    else{
-       res.status(404)   
-    }
+    
+  
 })
 // Create new user
 .post( '/user/signup' , async (req,res)=>{
@@ -90,6 +86,7 @@ router
 
  })
 // logging user in 
+
 router.post('/user/login', async (req,res)=>{
     const { id } = req.body 
     const {password} = req.body
@@ -98,8 +95,12 @@ router.post('/user/login', async (req,res)=>{
         if(doc){
             if (doc.password == password)
             {
-                let token = jwt.sign( req.body,process.env.JWT_KEY)
-                res.status(200).send({token})
+                let token = jwt.sign( req.body,process.env.JWT_KEY, {expiresIn : "1h" }  )
+                // res.status(200).send({token})
+                res.cookie('token', token, {
+                    httpOnly: true, sameSite: true
+                })
+                return res.send('Logged in')
             }
             else{
                 const invPassRes ={ 
@@ -121,6 +122,13 @@ router.post('/user/login', async (req,res)=>{
     { res.status(500).send("Server error.") }
 })
 
+router.post('/user/logout' , (req,res)=>{
+    res.header('x-owner','mayur meshram');
+    res.clearCookie('token')
+    return res.send('logged out')
+
+})
+
 router.patch( '/user/:id' , async (req,res)=> {
     const {id} = req.params
     try {
@@ -131,6 +139,27 @@ router.patch( '/user/:id' , async (req,res)=> {
         res.status(200).json(response)
     } catch (error) {
         res,status(500).send('Server error')
+    }
+ })
+
+
+ router.put('/user/:id', async (req,res)=> {
+     let invalidFields = []
+    try {
+        let userObj = await User.findById(req.params.id)
+        if(! userObj ) return res.status(404).message('User Not Found')
+        console.log(userObj)
+        for (const key in req.body) {
+            if ( key in userObj ) 
+            {
+                userObj[key] = req.body[key]
+            }
+            else invalidFields.push(key)
+        }
+        let updatedDoc = await userObj.save();
+        res.json({ updatedDoc , invalidFields})
+    } catch (error) {
+        res.send('Server error')
     }
  })
 

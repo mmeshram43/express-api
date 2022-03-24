@@ -1,11 +1,12 @@
 const { Route } = require('express')
+const verify = require('../middleware/verify')
 const express = require('express')
 const router = express.Router()
 const Product = require('../models/Product')
 
  // Get All  Products
  router
-.get('/products',async ( req , res) => {
+.get('/products', verify ,async ( req , res) => {
     const { limit } = req.query
     if(limit){
         try {

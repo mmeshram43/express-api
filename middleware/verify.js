@@ -1,10 +1,13 @@
 const jwt=require('jsonwebtoken')
 
 let verifyToken = function ( req,res ,next ){
-    if(!req.headers.authorization){
-        res.status(401).send("Unauthorized")
-    }
-    let token = req.headers.authorization.split(' ')[1]
+    // if(!req.headers.authorization){
+    //     res.status(401).send("Unauthorized")
+    // }
+    // let token = req.headers.authorization.split(' ')[1]
+    console.log('Verifying in middleware....')
+    let token = req.cookies.token;
+    console.log(token)
     if(token === null){
         res.status(401).send("Unauthorized")
     }
