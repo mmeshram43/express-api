@@ -14,17 +14,18 @@ const session = require('express-session')
 
 //importing all the routes
 const users = require('./routes/users')
-const blog  = require('./routes/blog')
-const product = require('./routes/product')
-const orders = require('./routes/orders')
-const blogpost = require('./routes/blogpost')
+// const blog  = require('./routes/blog')
+// const product = require('./routes/product')
+// const orders = require('./routes/orders')
+// const blogpost = require('./routes/blogpost')
+const expense = require('./routes/expense')
 
 //importing all the models
-const customer = require('./models/Customer')
-const prod = require('./models/Product')
-const Order = require('./models/Order')
-const course  = require('./models/Course')
-const student = require('./models/Student')
+// const customer = require('./models/Customer')
+// const prod = require('./models/Product')
+// const Order = require('./models/Order')
+// const course  = require('./models/Course')
+// const student = require('./models/Student')
 const mongo = require('./mongoQuery')
 const mongoQ = require('./mongoQuery')
 
@@ -78,14 +79,15 @@ mongoose.connect( localDbUrl , err => {
 //app.use(basicAuth({ regUsers : { 'admin':'supersecret' } }))
 
 // api routes for different models
-app.use('/api',product)
-app.use('/api',blog)
+// app.use('/api',product)
+// app.use('/api',blog)
 app.use('/api',users)
-app.use('/api',orders )
-app.use('/api',blogpost)
-// app.use('/api' ,logger, team)
+// app.use('/api',orders )
+// app.use('/api',blogpost)
+app.use('/api',expense)
 
-app.get('/api/v1/heartbeat' , (req,res)=>{
+// app.use('/api' ,logger, team)
+app.get('/api/heartbeat' , (req,res)=>{
   const response =
   {
     success : dbConnection ,
